@@ -35,44 +35,65 @@ function tabela() {
     }
 }
 
-
 function sendMessage() {
     var message = document.getElementById('message').value;
-    //document.getElementById('chat').innerHTML = "<p></p>"
     let este = "";
-
-    //<p><strong>Pergunta: </strong>New Web Design</p>
-    //              <a href="#" class="float-right">21 March, 2014</a>
-    //              <p><strong>Resposta:</strong>
-    este += '<li>'
+  
+    este += '<li>';
     este += '<a><strong>Você:</strong> ' + message + '</a>';
     data = new Date();
-    este += '<a class="float-right">' + data.toLocaleString() +  '</a>'
-    //document.getElementById('chat').innerHTML += '<li>'
-    //document.getElementById('chat').innerHTML += '<p><strong>Você:</strong> ' + message + '</p>';
-    //document.getElementById('chat').innerHTML += '<span class="float-right">' + new Date() +  '</span>'
-
+    este += '<a class="float-right">' + data.toLocaleString() + '</a>';
+  
     try {
-        debugger
-        var resposta = respostas[message.toLowerCase().trim()];
-        if (resposta) {
-            //document.getElementById('chat').innerHTML += '<p><strong>Resposta:</strong> '+resposta+'</p>';
-            este  += '<p><strong>Resposta:</strong> '+resposta+'</p>';
-            //document.getElementById('chat').innerHTML += '<p><strong>Chatbot:</strong> ' + resposta + '</p>';
-        } else {
-            //document.getElementById('chat').innerHTML +='<p><strong>Chatbot:</strong> Desculpe, não entendi sua pergunta. Poderia reformulá-la?</p>'
-            este  +='<p><strong>Chatbot:</strong> Desculpe, não entendi sua pergunta. Poderia reformulá-la?</p>'
-            //document.getElementById('chat').innerHTML += '<p><strong>Chatbot:</strong> Desculpe, não entendi sua pergunta. Poderia reformulá-la?</p>';
-        }
-        este += '</li>'
-        document.getElementById('chat').innerHTML += este
+      var resposta = buscarResposta(message);
+      if (resposta) {
+        este += '<p><strong>Resposta:</strong> ' + resposta + '</p>';
+      } else {
+        este += '<p><strong>Chatbot:</strong> Desculpe, não entendi sua pergunta. Poderia reformulá-la?</p>';
+      }
+      este += '</li>';
+      document.getElementById('chat').innerHTML += este;
     } catch (error) {
-        alert("ERRO AO BUSCAR RESPOSTA")
+      alert("ERRO AO BUSCAR RESPOSTA");
     }
-
-    document.getElementById('message').value = ""
-
-}
+  
+    document.getElementById('message').value = "";
+  }
+  
+  // Função para buscar a resposta com base na entrada do usuário
+  function buscarResposta(entrada) {
+    entrada = entrada.toLowerCase().trim();
+    var palavras = entrada.split(' ');
+  
+    // Mapear palavras para verificar se há uma resposta correspondente
+    for (var i = 0; i < palavras.length; i++) {
+      var palavra = palavras[i];
+      var resposta = respostas[palavra];
+  
+      if (resposta) {
+        return resposta;
+      }
+  
+      // Verificar se há uma forma singular do verbo
+      var formaSingular = pluralParaSingular(palavra);
+      if (formaSingular && respostas[formaSingular]) {
+        return respostas[formaSingular];
+      }
+    }
+  
+    return null;
+  }
+  
+  // Função para converter uma palavra do plural para o singular
+  function pluralParaSingular(palavra) {
+    // Adicione aqui suas regras para conversão de plural para singular
+    if (palavra.endsWith('s')) {
+      return palavra.slice(0, -1);
+    }
+  
+    return null;
+  }
+  
 	
 document.getElementById('message').value = "como uma fazer pergunta?";
 sendMessage()
