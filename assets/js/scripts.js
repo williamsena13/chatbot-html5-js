@@ -1,7 +1,7 @@
 let teste = "Os riscos ocupacionais são aqueles que estão ligados a atividade ocupacional sendo qualquer tipo de situação não saudável ou que não esteja de acordo com normativas de desempenho no ambiente de trabalho. Tais riscos podem desencadear problemas de saúde física ou mental nos colaboradores. Podem ser classificados como: Riscos físicos, químicos, biológicos, ergonômicos e de acidentes.\n\n- Riscos físicos: Consideram-se agentes de risco físico as diversas formas de energia a que possam estar expostos os trabalhadores, tais como: ruído, calor, frio, pressão, umidade, radiações ionizantes e não-ionizantes, vibração etc.\n\n- Riscos químicos: É o perigo a que determinado indivíduo está exposto ao manipular produtos químicos que podem causar-lhe danos físicos ou prejudicar-lhe a saúde. Estes químicos podem estar presentes em poeiras ou fumaças dispersas no ar, em resíduos líquidos, pastosos e outros que contenham agentes químicos prejudiciais à saúde.\n\n- Riscos biológicos: Considera-se os agentes biológicos como vírus, bactérias, parasitas, protozoários, fungos e bacilos que podem infectar o ser humano, causando alguma doença. Podem ser transmitidos de pessoas para pessoa, de um objeto contaminado para uma pessoa ou ainda de um animal para uma pessoa.\n\n- Risco ergonômico: São aqueles provenientes do esforço físico, levantamento de peso, postura inadequada e situações de estresse entre outros.\n\n- Risco de acidente: São muito diversificados e estão presentes no arranjo físico inadequado, pisos pouco resistentes ou irregulares, material ou matéria-prima fora de especificação, utilização de máquinas e equipamentos sem proteção, ferramentas impróprias ou defeituosas, iluminação excessiva ou insuficiente, quedas, atropelamentos e outros acidentes ocorridos durante o trabalho no no trajeto (ida ou volta para o trabalho).";
 
 
-var respostas = {
+const respostas = {
     "como fazer uma pergunta?": "Digite sua pergunta, que a resposta será exibida em seguida",
     "como funciona?": "Para obter uma resposta, é necessário cadastrar préviamente a pergunta e a resposta",
     //
@@ -17,7 +17,7 @@ var respostas = {
     //
 };
 
-tabela();
+//tabela();
 
 function tabela() {
     var tableBody = document.getElementById("table-body");
@@ -62,7 +62,19 @@ function sendMessage() {
   
   // Função para buscar a resposta com base na entrada do usuário
   function buscarResposta(entrada) {
+    console.log("é interrogação: ", entrada.toLowerCase().trim().length);
     entrada = entrada.toLowerCase().trim();
+    if ( !entrada.endsWith('?')){
+      entrada = entrada + "?";
+    }
+    for (var pergunta in respostas) {
+      if( pergunta == entrada ){
+        return respostas[pergunta]
+      }
+      //console.log(pergunta + ":");
+      //console.log(respostas[pergunta]);
+    }
+    /*
     var palavras = entrada.split(' ');
   
     // Mapear palavras para verificar se há uma resposta correspondente
@@ -79,8 +91,8 @@ function sendMessage() {
       if (formaSingular && respostas[formaSingular]) {
         return respostas[formaSingular];
       }
-    }
-  
+    }  
+    */
     return null;
   }
   
@@ -95,5 +107,5 @@ function sendMessage() {
   }
   
 	
-document.getElementById('message').value = "como uma fazer pergunta?";
+document.getElementById('message').value = "como fazer uma pergunta?";
 sendMessage()
